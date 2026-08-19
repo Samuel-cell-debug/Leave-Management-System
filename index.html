@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Northstar leave management workspace">
+  <title>Northstar Leave Management</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="loginView" class="login-shell">
+    <section class="login-card" aria-labelledby="loginTitle">
+      <div class="brand-mark" aria-hidden="true">N</div>
+      <p class="eyebrow">Northstar People Ops</p>
+      <h1 id="loginTitle">Your time, in balance.</h1>
+      <p class="login-copy">Manage leave, stay aligned with your team, and keep your plans moving.</p>
+      <form id="loginForm" class="stack-form">
+        <label for="loginEmail">Work email</label>
+        <input id="loginEmail" name="email" type="email" placeholder="you@northstar.co" value="alex.morgan@northstar.co" required>
+        <label for="loginPassword">Password</label>
+        <input id="loginPassword" name="password" type="password" placeholder="Enter your password" value="northstar" required>
+        <button class="button button-primary button-wide" type="submit">Sign in <span aria-hidden="true">&rarr;</span></button>
+      </form>
+      <p class="login-hint">Demo workspace &middot; Any valid email and password will work</p>
+    </section>
+    <div class="login-art" aria-hidden="true">
+      <div class="art-orbit orbit-one"></div>
+      <div class="art-orbit orbit-two"></div>
+      <div class="art-card art-card-main"><span class="art-label">TIME OFF</span><strong>18.5</strong><small>days available</small></div>
+      <div class="art-card art-card-float"><span class="status-dot status-approved"></span> Team coverage looks good</div>
+    </div>
+  </div>
+
+  <div id="appView" class="app-shell hidden">
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <a class="brand" href="#dashboard" data-tab="dashboard"><span class="brand-mark small">N</span><span>northstar</span></a>
+        <button id="closeSidebar" class="icon-button mobile-only" type="button" aria-label="Close navigation">&times;</button>
+        <p class="workspace-label">People workspace</p>
+        <nav class="main-nav" aria-label="Primary navigation">
+          <button class="nav-item active" data-tab="dashboard" type="button"><span class="nav-icon">&#9633;</span>Overview</button>
+          <button class="nav-item" data-tab="apply" type="button"><span class="nav-icon">&#43;</span>Apply for leave</button>
+          <button class="nav-item" data-tab="history" type="button"><span class="nav-icon">&#9776;</span>Leave history</button>
+          <button class="nav-item" data-tab="calendar" type="button"><span class="nav-icon">&#9632;</span>Team calendar</button>
+        </nav>
+      </div>
+      <div class="sidebar-bottom">
+        <div class="support-card"><span class="support-icon">?</span><div><strong>Need a hand?</strong><small>Talk to People Ops</small></div></div>
+        <button id="logoutButton" class="logout-button" type="button"><span class="nav-icon">&#8592;</span>Sign out</button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button id="openSidebar" class="icon-button mobile-only" type="button" aria-label="Open navigation">&#9776;</button>
+        <div class="breadcrumb"><span class="breadcrumb-muted">Workspace</span><span>/</span><strong id="pageLabel">Overview</strong></div>
+        <div class="topbar-actions">
+          <button id="notificationButton" class="icon-button notification-button" type="button" aria-label="Notifications"><span class="bell">&#9673;</span><span class="notification-dot"></span></button>
+          <div class="user-menu"><div class="avatar">AM</div><div class="user-meta"><strong>Alex Morgan</strong><span>Product Designer</span></div><span class="chevron">&#8964;</span></div>
+        </div>
+      </header>
+
+      <div class="page-wrap">
+        <section id="dashboardPanel" class="tab-panel active" aria-labelledby="dashboardTitle">
+          <div class="page-heading"><div><p class="eyebrow">Wednesday, 19 June 2024</p><h1 id="dashboardTitle">Good morning, Alex <span class="wave">&#10024;</span></h1><p class="subtitle">Here is your time-off snapshot for the year.</p></div><button class="button button-primary" data-tab="apply" type="button"><span>+</span> Request leave</button></div>
+          <div id="dashboardStats" class="stats-grid"></div>
+          <div class="content-grid dashboard-grid">
+            <section class="surface recent-surface"><div class="section-heading"><div><p class="eyebrow">Your activity</p><h2>Recent requests</h2></div><button class="text-button" data-tab="history" type="button">View all <span>&rarr;</span></button></div><div class="table-wrap"><table><thead><tr><th>Leave type</th><th>Dates</th><th>Days</th><th>Status</th></tr></thead><tbody id="recentRequests"></tbody></table></div></section>
+            <section class="surface balance-surface"><div class="section-heading"><div><p class="eyebrow">Year to date</p><h2>Leave balance</h2></div><button id="profileBalanceButton" class="icon-button" type="button" aria-label="View balance details">&#8599;</button></div><div id="balanceList" class="balance-list"></div><div class="balance-footer"><span class="balance-avatar">AM</span><span>Balances refresh after approval</span></div></section>
+          </div>
+        </section>
+
+        <section id="applyPanel" class="tab-panel" aria-labelledby="applyTitle"><div class="page-heading"><div><p class="eyebrow">Plan ahead</p><h1 id="applyTitle">Request time off</h1><p class="subtitle">Give your team visibility and take the time you need.</p></div></div><div class="content-grid form-grid"><form id="leaveForm" class="surface leave-form"><div class="form-section"><div class="section-heading compact"><div><p class="eyebrow">01</p><h2>Leave details</h2></div><span class="required-note">* Required</span></div><div class="field-grid"><div class="field"><label for="leaveType">Leave type <span>*</span></label><select id="leaveType" required><option value="annual">Annual leave</option><option value="sick">Sick leave</option><option value="casual">Casual leave</option><option value="maternity">Maternity leave</option><option value="paternity">Paternity leave</option><option value="unpaid">Unpaid leave</option></select><small id="balancePreview" class="field-hint"></small></div><div class="field"><label for="timeOption">Time option <span>*</span></label><select id="timeOption" required><option value="full">Full day</option><option value="morning">Morning only</option><option value="afternoon">Afternoon only</option></select></div><div class="field"><label for="startDate">Start date <span>*</span></label><input id="startDate" type="date" required></div><div class="field"><label for="endDate">End date <span>*</span></label><input id="endDate" type="date" required></div></div><div id="dayCalculation" class="calculation-box"><span class="calculation-icon">&#10003;</span><div><strong>0 working days</strong><span>Select your dates to calculate duration</span></div></div></div><div class="form-section"><div class="section-heading compact"><div><p class="eyebrow">02</p><h2>Leave context</h2></div></div><div class="field"><label for="reason">Reason for leave <span>*</span></label><textarea id="reason" rows="4" minlength="10" placeholder="Share a little context with your manager..." required></textarea><small class="field-hint">Minimum 10 characters</small></div><div class="field-grid"><div class="field"><label for="handover">Handover person <span>*</span></label><select id="handover" required><option value="">Select a teammate</option><option>Jamie Lee</option><option>Priya Shah</option><option>Marcus Chen</option><option>Sofia Alvarez</option></select></div><div class="field"><label for="attachment">Attachment <span class="optional">Optional</span></label><input id="attachment" type="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"><small class="field-hint">PDF, JPG, PNG or DOC up to 5 MB</small></div></div></div><div id="formError" class="form-error" role="alert" aria-live="polite"></div><div class="form-actions"><button class="button button-quiet" data-tab="dashboard" type="button">Save as draft</button><button class="button button-primary" type="submit">Submit request <span>&rarr;</span></button></div></form><aside class="surface apply-aside"><div class="aside-accent"></div><p class="eyebrow">Before you submit</p><h2>A little planning goes a long way.</h2><ul class="check-list"><li><span>&#10003;</span> Check your team calendar for coverage</li><li><span>&#10003;</span> Add a clear handover note</li><li><span>&#10003;</span> Your manager will be notified instantly</li></ul><div class="mini-quote"><div class="avatar avatar-purple">JL</div><p>"Taking time away helps us do our best work when we return."<strong>Jamie Lee, People Ops</strong></p></div></aside></div></section>
+
+        <section id="historyPanel" class="tab-panel" aria-labelledby="historyTitle"><div class="page-heading"><div><p class="eyebrow">Your records</p><h1 id="historyTitle">Leave history</h1><p class="subtitle">A clear record of every request you have made.</p></div><div class="heading-actions"><button id="exportButton" class="button button-secondary" type="button"><span>&darr;</span> Export CSV</button><button class="button button-primary" data-tab="apply" type="button"><span>+</span> New request</button></div></div><section class="surface history-surface"><div class="filter-bar"><div class="filter-label"><span class="filter-icon">&#9776;</span><strong>Filter requests</strong></div><label class="sr-only" for="historyType">Leave type</label><select id="historyType"><option value="all">All leave types</option><option value="annual">Annual leave</option><option value="sick">Sick leave</option><option value="casual">Casual leave</option><option value="maternity">Maternity leave</option><option value="paternity">Paternity leave</option><option value="unpaid">Unpaid leave</option></select><label class="sr-only" for="historyStatus">Status</label><select id="historyStatus"><option value="all">All statuses</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="rejected">Rejected</option><option value="cancelled">Cancelled</option></select><span id="historyCount" class="filter-count"></span></div><div class="table-wrap"><table class="history-table"><thead><tr><th>Reference</th><th>Leave type</th><th>Date range</th><th>Days</th><th>Status</th><th>Applied on</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody id="historyRows"></tbody></table></div></section></section>
+
+        <section id="calendarPanel" class="tab-panel" aria-labelledby="calendarTitle"><div class="page-heading"><div><p class="eyebrow">Plan together</p><h1 id="calendarTitle">Team calendar</h1><p class="subtitle">See when your teammates are recharging.</p></div><div class="calendar-legend"><span><i class="legend-dot approved"></i>Approved</span><span><i class="legend-dot pending"></i>Pending</span></div></div><section class="surface calendar-surface"><div class="calendar-toolbar"><button id="previousMonth" class="icon-button" type="button" aria-label="Previous month">&#8592;</button><h2 id="calendarMonth">June 2024</h2><button id="nextMonth" class="icon-button" type="button" aria-label="Next month">&#8594;</button><button id="todayButton" class="button button-secondary today-button" type="button">Today</button></div><div class="calendar-weekdays"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span class="weekend-label">Sat</span><span class="weekend-label">Sun</span></div><div id="calendarGrid" class="calendar-grid"></div><div id="calendarDetails" class="calendar-details hidden"></div></section></section>
+      </div>
+      <footer class="app-footer"><span>Northstar People Ops</span><span>Last synced just now</span></footer>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-card"><button id="closeModal" class="modal-close" type="button" aria-label="Close dialog">&times;</button><div id="modalContent"></div></div></div>
+  <script src="script.js"></script>
+</body>
+</html>
