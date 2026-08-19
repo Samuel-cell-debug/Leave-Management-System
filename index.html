@@ -21,7 +21,7 @@
         <input id="loginPassword" name="password" type="password" placeholder="Enter your password" value="northstar" required>
         <button class="button button-primary button-wide" type="submit">Sign in <span aria-hidden="true">&rarr;</span></button>
       </form>
-      <p class="login-hint">Demo workspace &middot; Any valid email and password will work</p>
+      <p id="loginMessage" class="login-hint">Sign in with your organization account.</p>
     </section>
     <div class="login-art" aria-hidden="true">
       <div class="art-orbit orbit-one"></div>
@@ -42,6 +42,7 @@
           <button class="nav-item" data-tab="apply" type="button"><span class="nav-icon">&#43;</span>Apply for leave</button>
           <button class="nav-item" data-tab="history" type="button"><span class="nav-icon">&#9776;</span>Leave history</button>
           <button class="nav-item" data-tab="calendar" type="button"><span class="nav-icon">&#9632;</span>Team calendar</button>
+          <button id="adminNav" class="nav-item hidden" data-tab="admin" type="button"><span class="nav-icon">&#9881;</span>Administration</button>
         </nav>
       </div>
       <div class="sidebar-bottom">
@@ -56,7 +57,7 @@
         <div class="breadcrumb"><span class="breadcrumb-muted">Workspace</span><span>/</span><strong id="pageLabel">Overview</strong></div>
         <div class="topbar-actions">
           <button id="notificationButton" class="icon-button notification-button" type="button" aria-label="Notifications"><span class="bell">&#9673;</span><span class="notification-dot"></span></button>
-          <div class="user-menu"><div class="avatar">AM</div><div class="user-meta"><strong>Alex Morgan</strong><span>Product Designer</span></div><span class="chevron">&#8964;</span></div>
+          <div class="user-menu"><div id="userAvatar" class="avatar">--</div><div class="user-meta"><strong id="userName">Loading...</strong><span id="userRole">Account</span></div><span class="chevron">&#8964;</span></div>
         </div>
       </header>
 
@@ -75,12 +76,14 @@
         <section id="historyPanel" class="tab-panel" aria-labelledby="historyTitle"><div class="page-heading"><div><p class="eyebrow">Your records</p><h1 id="historyTitle">Leave history</h1><p class="subtitle">A clear record of every request you have made.</p></div><div class="heading-actions"><button id="exportButton" class="button button-secondary" type="button"><span>&darr;</span> Export CSV</button><button class="button button-primary" data-tab="apply" type="button"><span>+</span> New request</button></div></div><section class="surface history-surface"><div class="filter-bar"><div class="filter-label"><span class="filter-icon">&#9776;</span><strong>Filter requests</strong></div><label class="sr-only" for="historyType">Leave type</label><select id="historyType"><option value="all">All leave types</option><option value="annual">Annual leave</option><option value="sick">Sick leave</option><option value="casual">Casual leave</option><option value="maternity">Maternity leave</option><option value="paternity">Paternity leave</option><option value="unpaid">Unpaid leave</option></select><label class="sr-only" for="historyStatus">Status</label><select id="historyStatus"><option value="all">All statuses</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="rejected">Rejected</option><option value="cancelled">Cancelled</option></select><span id="historyCount" class="filter-count"></span></div><div class="table-wrap"><table class="history-table"><thead><tr><th>Reference</th><th>Leave type</th><th>Date range</th><th>Days</th><th>Status</th><th>Applied on</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody id="historyRows"></tbody></table></div></section></section>
 
         <section id="calendarPanel" class="tab-panel" aria-labelledby="calendarTitle"><div class="page-heading"><div><p class="eyebrow">Plan together</p><h1 id="calendarTitle">Team calendar</h1><p class="subtitle">See when your teammates are recharging.</p></div><div class="calendar-legend"><span><i class="legend-dot approved"></i>Approved</span><span><i class="legend-dot pending"></i>Pending</span></div></div><section class="surface calendar-surface"><div class="calendar-toolbar"><button id="previousMonth" class="icon-button" type="button" aria-label="Previous month">&#8592;</button><h2 id="calendarMonth">June 2024</h2><button id="nextMonth" class="icon-button" type="button" aria-label="Next month">&#8594;</button><button id="todayButton" class="button button-secondary today-button" type="button">Today</button></div><div class="calendar-weekdays"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span class="weekend-label">Sat</span><span class="weekend-label">Sun</span></div><div id="calendarGrid" class="calendar-grid"></div><div id="calendarDetails" class="calendar-details hidden"></div></section></section>
+        <section id="adminPanel" class="tab-panel" aria-labelledby="adminTitle"><div class="page-heading"><div><p class="eyebrow">Restricted area</p><h1 id="adminTitle">Administration</h1><p class="subtitle">Review requests and manage employee leave balances.</p></div><button id="adminExportButton" class="button button-secondary" type="button"><span>&darr;</span> Export CSV</button></div><div id="adminStats" class="stats-grid"></div><section class="surface history-surface admin-surface"><div class="filter-bar"><div class="filter-label"><span class="filter-icon">&#9776;</span><strong>All requests</strong></div><label class="sr-only" for="adminEmployee">Employee</label><select id="adminEmployee"><option value="all">All employees</option></select><label class="sr-only" for="adminStatus">Status</label><select id="adminStatus"><option value="all">All statuses</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="rejected">Rejected</option><option value="cancelled">Cancelled</option></select><span id="adminCount" class="filter-count"></span></div><div class="table-wrap"><table class="history-table"><thead><tr><th>Employee</th><th>Leave type</th><th>Date range</th><th>Days</th><th>Status</th><th>Applied</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody id="adminRows"></tbody></table></div></section><section class="surface admin-balances"><div class="section-heading"><div><p class="eyebrow">People directory</p><h2>Leave balances</h2></div></div><div class="table-wrap"><table class="history-table"><thead><tr><th>Employee</th><th>Annual</th><th>Sick</th><th>Casual</th><th>Role</th></tr></thead><tbody id="adminBalances"></tbody></table></div></section></section>
       </div>
       <footer class="app-footer"><span>Northstar People Ops</span><span>Last synced just now</span></footer>
     </main>
   </div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <div id="modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-card"><button id="closeModal" class="modal-close" type="button" aria-label="Close dialog">&times;</button><div id="modalContent"></div></div></div>
+  <script src="google-sheets-config.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
