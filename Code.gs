@@ -1,7 +1,14 @@
 const SHEETS = { users: "Users", balances: "Balances", requests: "LeaveRequests" };
 
-function doGet() {
-  return json_({ ok: true, service: "Northstar Leave demo", message: "Use POST for actions." });
+function doGet(event) {
+  try {
+    const body = event && event.parameter && event.parameter.payload ? JSON.parse(event.parameter.payload) : {};
+    if (!body.action) return json_({ ok: true, service: "Northstar Leave demo", message: "Use POST for actions." });
+    const result = route_(SpreadsheetApp.getActiveSpreadsheet(), body);
+    return json_({ ok: true, data: result });
+  } catch (error) {
+    return json_({ ok: false, error: error.message });
+  }
 }
 
 function doPost(event) {
