@@ -34,6 +34,14 @@ Open `http://localhost:8000` and sign in with an email/password from the `Users`
 
 Set `role` to `employee` or `administrator` in the `Users` tab. Employees see their own balances and requests. Administrators see all requests and balances and can approve or reject pending requests with a comment. Approved requests decrement the matching balance row.
 
+For a quick admin demo, add this row to `Users` and change the password before sharing the sheet:
+
+```text
+admin-001 | admin@example.com | admin123 | Admin User | People Ops | HR | administrator
+```
+
+Then sign in with `admin@example.com` and `admin123`. The `Administration` item appears in the left navigation after login.
+
 This is a demonstration integration. Passwords are stored in the sheet and the Apps Script endpoint trusts the caller's email and password. Do not use this authentication model, public web-app access, or a Google Sheet as the authoritative HR database in production. Use Supabase, Firebase, or a server with real authentication and server-side authorization for production.
 
 ## Features

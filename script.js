@@ -3,6 +3,7 @@ const leaveCatalog = { annual: { label: "Annual leave" }, sick: { label: "Sick l
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
 let profile = null;
+let sessionPassword = "";
 let state = { leaves: [], balances: [], teamLeaves: [], employees: [] };
 let calendarDate = new Date();
 

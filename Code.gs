@@ -20,9 +20,9 @@ function route_(spreadsheet, body) {
   const actor = users.find(user => user.email === body.email);
   if (body.action === "login") {
     if (!actor || actor.password !== body.password) throw new Error("Invalid email or password.");
-    return { user: publicUser_(actor), leaves: leaves_(spreadsheet), balances: balances_(spreadsheet), users: publicUsers_(users) };
+      return workspace_(spreadsheet, actor);
   }
-  if (!actor) throw new Error("Sign in is required.");
+  if (!actor || actor.password !== body.password) throw new Error("Your session has expired. Please sign in again.");
   if (body.action === "submit") {
     const request = { id: `LV-${Date.now()}`, employee_id: actor.id, leave_type: body.leave.leave_type, start_date: body.leave.start_date, end_date: body.leave.end_date, days: body.leave.days, reason: body.leave.reason, handover: body.leave.handover, time_option: body.leave.time_option, status: "pending", applied_on: new Date().toISOString(), decision_comment: "" };
     append_(spreadsheet.getSheetByName(SHEETS.requests), request); return request;
@@ -32,9 +32,16 @@ function route_(spreadsheet, body) {
     if (actor.role !== "administrator") throw new Error("Administrator access required.");
     return updateStatus_(spreadsheet, actor, body.id, body.status, body.comment || "");
   }
-  if (body.action === "refresh") return { user: publicUser_(actor), leaves: leaves_(spreadsheet), balances: balances_(spreadsheet), users: publicUsers_(users) };
+    if (body.action === "refresh") return workspace_(spreadsheet, actor);
   throw new Error("Unknown action.");
 }
+
+  function workspace_(spreadsheet, actor) {
+    const leaves = leaves_(spreadsheet);
+    const balances = balances_(spreadsheet);
+    const administrator = actor.role === "administrator";
+    return { user: publicUser_(actor), leaves: administrator ? leaves : leaves.filter(leave => String(leave.employee_id) === String(actor.id)), balances: administrator ? balances : balances.filter(balance => String(balance.employee_id) === String(actor.id)), users: administrator ? publicUsers_(read_(spreadsheet.getSheetByName(SHEETS.users))) : [publicUser_(actor)] };
+  }
 
 function read_(sheet) { const values = sheet.getDataRange().getValues(); const headers = values.shift().map(String); return values.filter(row => row.some(Boolean)).map(row => headers.reduce((item, header, index) => { item[header] = row[index]; return item; }, {})); }
 function leaves_(spreadsheet) { return read_(spreadsheet.getSheetByName(SHEETS.requests)); }
